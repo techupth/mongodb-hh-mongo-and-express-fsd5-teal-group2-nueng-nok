@@ -1,18 +1,30 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-function CreateProductForm() {
+function EditProductForm() {
+  const params = useParams();
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
 
-  const navigate = useNavigate();
+  const getCurrentProduct = async () => {
+    const result = await axios(
+      `http://localhost:4001/products/${params.productId}`
+    );
+    setName(result.data.data.name);
+    setImageUrl(result.data.data.image);
+    setPrice(result.data.data.price);
+    setDescription(result.data.data.description);
+    setCategory(result.data.data.category);
+  };
 
-  const createProduct = async () => {
-    await axios.post("http://localhost:4001/products", {
+  const updateProduct = async () => {
+    await axios.put(`http://localhost:4001/products/${params.productId}`, {
       name,
       image: imageUrl,
       price,
@@ -22,14 +34,18 @@ function CreateProductForm() {
     navigate("/");
   };
 
-  const handleSubmit = (event) => {
+  const handleUpdate = (event) => {
     event.preventDefault();
-    createProduct();
+    updateProduct();
   };
 
+  useEffect(() => {
+    getCurrentProduct();
+  }, []);
+
   return (
-    <form className="product-form" onSubmit={handleSubmit}>
-      <h1>Create Product Form</h1>
+    <form className="product-form" onSubmit={handleUpdate}>
+      <h1>Edit Product Form</h1>
       <div className="input-container">
         <label>
           Name
@@ -92,7 +108,6 @@ function CreateProductForm() {
           />
         </label>
       </div>
-
       <div className="input-container">
         <label>
           Category
@@ -102,7 +117,8 @@ function CreateProductForm() {
             value={category}
             onChange={(event) => {
               setCategory(event.target.value);
-            }}>
+            }}
+          >
             <option disabled value="">
               -- Select a category --
             </option>
@@ -113,10 +129,10 @@ function CreateProductForm() {
         </label>
       </div>
       <div className="form-actions">
-        <button type="submit">Create</button>
+        <button type="submit">Update</button>
       </div>
     </form>
   );
 }
 
-export default CreateProductForm;
+export default EditProductForm;

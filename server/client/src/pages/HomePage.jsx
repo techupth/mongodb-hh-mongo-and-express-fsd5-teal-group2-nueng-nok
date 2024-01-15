@@ -55,7 +55,8 @@ function HomePage() {
         <button
           onClick={() => {
             navigate("/product/create");
-          }}>
+          }}
+        >
           Create Product
         </button>
       </div>
@@ -77,7 +78,8 @@ function HomePage() {
               id="category"
               name="category"
               value={category}
-              onChange={handleCategory}>
+              onChange={handleCategory}
+            >
               <option disabled value="">
                 -- Select a category --
               </option>
@@ -123,14 +125,16 @@ function HomePage() {
                     className="view-button"
                     onClick={() => {
                       navigate(`/product/view/${product._id}`);
-                    }}>
+                    }}
+                  >
                     View
                   </button>
                   <button
                     className="edit-button"
                     onClick={() => {
                       navigate(`/product/edit/${product._id}`);
-                    }}>
+                    }}
+                  >
                     Edit
                   </button>
                 </div>
@@ -140,7 +144,8 @@ function HomePage() {
                 className="delete-button"
                 onClick={() => {
                   deleteProduct(product._id, index);
-                }}>
+                }}
+              >
                 x
               </button>
             </div>

@@ -102,7 +102,8 @@ function CreateProductForm() {
             value={category}
             onChange={(event) => {
               setCategory(event.target.value);
-            }}>
+            }}
+          >
             <option disabled value="">
               -- Select a category --
             </option>

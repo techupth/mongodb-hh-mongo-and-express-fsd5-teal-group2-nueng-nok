@@ -31,7 +31,8 @@ function ViewProductPage() {
       <button
         onClick={() => {
           navigate("/");
-        }}>
+        }}
+      >
         Back to Home
       </button>
     </div>
